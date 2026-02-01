@@ -37,7 +37,7 @@ VALIDATE $? "Installing redis"
 sed -i "s/127.0.0.1/0.0.0.0/g" /etc/redis/redis.conf &>> $LOGS_FILE
 VALIDATE $? "Opening to Remote connections"
 
-sed -i "s/protected-mode yes/protected-mode no" /etc/redis/redis.conf &>> $LOGS_FILE
+sed -i "s/protected-mode yes/protected-mode no/" /etc/redis/redis.conf &>> $LOGS_FILE
 VALIDATE $? "Protected mode turnong off"
 
 

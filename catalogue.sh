@@ -46,10 +46,10 @@ VALIDATE $? "Creating app directory/folder"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $LOGS_FILE
 VALIDATE $? "Downloading backend nodejs code"
 
-cd /app | tee -a $LOGS_FILE
+cd /app
 VALIDATE $? "changing directory to app folder to download code"
 
-rm -rf /app/* | tee -a $LOGS_FILE
+rm -rf /app/*
 VALIDATE $? "Removong code in app dir"
 
 

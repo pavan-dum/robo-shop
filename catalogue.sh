@@ -42,7 +42,7 @@ mkdir -p /app | tee -a $LOGS_FILE
 VALIDATE $? "Creating app directory/folder"
 
 rm -rf /app/* | tee -a $LOGS_FILE
-Validate $? "Removong code in app dir"
+VALIDATE $? "Removong code in app dir"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $LOGS_FILE
 VALIDATE $? "Downloading backend nodejs code"

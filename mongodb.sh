@@ -10,14 +10,14 @@ if [ $UUID -ne 0 ]; then
 fi
 
 
-VALIDATE (
+VALIDATE (){
     if [ $1 -ne 0 ]; then
         echo "$2.....FAILURE." | tee -a $LOGS_FILE
     else
         echo "$2.....SUCCESS." | tee -a $LOGS_FILE
     else
     fi
-)
+}
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGS_FILE
 

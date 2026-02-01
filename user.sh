@@ -13,7 +13,7 @@ fi
 mkdir -p $LOGS_FOLDER
 
 VALIDATE () {
-    if [ $? -ne 0 ]; then
+    if [ $1 -ne 0 ]; then
         echo "$2....FAILURE" | tee -a $LOGS_FILE
         exit 1
     else
@@ -33,7 +33,7 @@ VALIDATE $? "Istalling nodejs"
 
 id roboshop &>> $LOGS_FILE
 if [ $$? -ne 0 ]; then
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOGS_FILE
     VALIDATE $? "Adding sys user"
     
 else

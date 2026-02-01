@@ -4,6 +4,7 @@ UUID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE=$LOGS_FOLDER/$0.log
 SCRIPT_DIR=$PWD
+MONGODB_HOST="mongodb.dpavan.online"
 
 if [ $UUID -ne 0 ]; then
     echo "Please get ROOT ACCESS to execute."
@@ -15,6 +16,7 @@ mkdir -p $LOGS_FOLDER
 VALIDATE () {
     if [ $1 -ne 0 ]; then
         echo "$2.....FAILURE" | tee -a $LOGS_FILE
+        exit 1
     else
         echo "$2.....SUCCESS" | tee -a $LOGS_FILE
     fi
@@ -41,14 +43,15 @@ fi
 mkdir -p /app | tee -a $LOGS_FILE
 VALIDATE $? "Creating app directory/folder"
 
-rm -rf /app/* | tee -a $LOGS_FILE
-VALIDATE $? "Removong code in app dir"
-
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $LOGS_FILE
 VALIDATE $? "Downloading backend nodejs code"
 
 cd /app | tee -a $LOGS_FILE
 VALIDATE $? "changing directory to app folder to download code"
+
+rm -rf /app/* | tee -a $LOGS_FILE
+VALIDATE $? "Removong code in app dir"
+
 
 unzip /tmp/catalogue.zip &>> $LOGS_FILE
 VALIDATE $? "Unzipping code"
@@ -75,5 +78,5 @@ VALIDATE $? "Copying mongo repo"
 dnf install mongodb-mongosh -y &>> $LOGS_FILE
 VALIDATE $? "Installing mongodb clinet"
 
-mongosh --host mongodb.dpavan.online </app/db/master-data.js &>> $LOGS_FILE
+mongosh --host $MONGODB_HOST </app/db/master-data.js &>> $LOGS_FILE
 VALIDATE $? "Loading products information"

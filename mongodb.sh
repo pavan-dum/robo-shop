@@ -10,7 +10,7 @@ if [ $UUID -ne 0 ]; then
 fi
 
 
-VALIDATE(
+VALIDATE (
     if [ $1 -ne 0 ]; then
         echo "$2.....FAILURE." | tee -a $LOGS_FILE
     else

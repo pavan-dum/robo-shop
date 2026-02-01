@@ -25,10 +25,10 @@ VALIDATE () {
 }
 
 
-dnf install maven -y
+dnf install maven -y &>> $LOGS_FILE
 VALIDATE $? "Installing maven"
 
-id roboshop
+id roboshop &>> $LOGS_FILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
     VALIDATE $? "Adding sys user"
@@ -40,50 +40,50 @@ fi
 mkdir -p /app
 VALIDATE $? "Creating app directory"
 
-curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
+curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>> $LOGS_FILE
 VALIDATE $? "Downloading shipping backend code"
 
 cd /app 
 VALIDATE $? "Moving to app DIR"
 
-rm -rf /app/*
+rm -rf /app/*   &>> $LOGS_FILE
 VALIDATE $? "Removing default code"
 
-unzip /tmp/shipping.zip
+unzip /tmp/shipping.zip  &>> $LOGS_FILE
 VALIDATE $? "Unzipping shipping code"
 
 
 cd /app 
-mvn clean package 
+mvn clean package &>> $LOGS_FILE
 VALIDATE $? "Installing build tool"
 
-mv target/shipping-1.0.jar shipping.jar
+mv target/shipping-1.0.jar shipping.jar  &>> $LOGS_FILE
 VALIDATE $? "renaming jar name"
 
-cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
+cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service  &>> $LOGS_FILE
 VALIDATE $? "copying shipping service"
 
-systemctl daemon-reload
+systemctl daemon-reload &>> $LOGS_FILE
 VALIDATE $? "Reloading system services"
 
-systemctl enable shipping 
+systemctl enable shipping  &>> $LOGS_FILE
 VALIDATE $? "Enabling shipping system services"
 
 systemctl start shipping
 VALIDATE $? "Starting shipping system services"
 
 
-dnf install mysql -y 
+dnf install mysql -y  &>> $LOGS_FILE
 VALIDATE $? "Installing mysql-server"
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>> $LOGS_FILE
 VALIDATE $? "Loading schema"
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $LOGS_FILE
 VALIDATE $? "Loading user schema"
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $LOGS_FILE
 VALIDATE $? "Loading master data schema"
 
-systemctl restart shipping
+systemctl restart shipping &>> $LOGS_FILE
 VALIDATE $? "Restarting shipping"

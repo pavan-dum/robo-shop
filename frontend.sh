@@ -3,6 +3,7 @@
 UUID=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 LOGS_FILE=$LOGS_FOLDER.$0.log
+SCRIPT_DIR=$PWD
 
 if [ $UUID -ne 0 ]; then
     echo "Please get ROOT ACCESS to execute"
@@ -47,7 +48,7 @@ VALIDATE $? "moving to html code directory"
 unzip /tmp/frontend.zip &>>$LOGS_FILE
 VALIDATE $? "Unzipping frontend html code"
  
-cp nginx.conf /etc/nginx/nginx.conf &>>$LOGS_FILE
+cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf &>>$LOGS_FILE
 VALIDATE $? "Copying ngix config file"
 
 systemctl restart nginx &>>$LOGS_FILE

@@ -27,7 +27,7 @@ VALIDATE () {
 dnf install python3 gcc python3-devel -y &>> $LOGS_FILE
 VALIDATE $? "Installing python devel"
 
-id roboshop
+id roboshop &>> $LOGS_FILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOGS_FILE
     VALIDATE $? "Adding sys user"

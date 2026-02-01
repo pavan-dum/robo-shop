@@ -54,5 +54,5 @@ do
             }]
         }'
 
-
+    echo "record updated for $instance: $DNS_NAME"
 done

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 UUID=$(id -u)
 LOGS_FOLDER="/var/log/sudo-roboshop"
 LOGS_FILE=$LOGS_FOLDER/$0.log
